@@ -1,22 +1,12 @@
 //
-//  ViewController.swift
+//  QuizBrain.swift
 //  Quizzler-iOS13
 //
-//  Created by Angela Yu on 12/07/2019.
-//  Copyright © 2019 The App Brewery. All rights reserved.
+//  Created by Jose Gualberto Monfortte Flores on 16/10/24.
+//  Copyright © 2024 The App Brewery. All rights reserved.
 //
 
-import UIKit
-
-class ViewController: UIViewController {
-    
-    @IBOutlet weak var questionView: UILabel!
-    @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var trueBtn: UIButton!
-    @IBOutlet weak var falseBtn: UIButton!
-    
-    var timer: Timer?
-    
+struct QuizBrain{
     let quiz = [
         Question(q: "A slug's blood is green.", a: "True"),
                 Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -33,36 +23,28 @@ class ViewController: UIViewController {
 
     ]
     
-    var questionNumber = 0
+    var questionNumber: Int = 0
     
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        updateText()
-    }
-    @IBAction func buttonPressed(_ sender: UIButton) {
-        print("Button pressed \(sender.currentTitle!)")
-        let currentAnswer = sender.currentTitle
+    func checkAnswer(_ userAnswer: String) -> Bool {
         let actualAnswer = quiz[questionNumber].a
         
-        let isAnswerCorrect = (currentAnswer == actualAnswer)
+        let isAnswerCorrect = (userAnswer == actualAnswer)
+        print("the answer is \(isAnswerCorrect)")
         
-        isAnswerCorrect ? (sender.backgroundColor = UIColor.green) : (sender.backgroundColor = UIColor.red)
-        
-        let isNextQuestionEmpty = questionNumber == quiz.count - 1
-        
-        !isNextQuestionEmpty ? questionNumber += 1 : (questionNumber = 0)
-        
-        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(updateText), userInfo: nil, repeats: false)
-
+        return isAnswerCorrect
     }
     
-    @objc func updateText(){
-        questionView.text = quiz[questionNumber].q
-        trueBtn.backgroundColor = .clear
-        falseBtn.backgroundColor = .clear
-        progressBar.progress = Float(questionNumber + 1) / Float(quiz.count)
+    func getQuestionText() -> String {
+        return quiz[questionNumber].q
+    }
+    
+    func getProgress() -> Float {
+        return Float(questionNumber + 1) / Float(quiz.count)
+    }
+    
+    mutating func nextQuestion() {
+        let isNextQuestionEmpty = (questionNumber == quiz.count - 1)
+        
+        !(isNextQuestionEmpty) ? (self.questionNumber += 1) : (self.questionNumber = 0)
     }
 }
-
