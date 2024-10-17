@@ -44,14 +44,16 @@ class ViewController: UIViewController {
     
     @objc func updateText(_ questionNumber: Int){
         scoreView.text = "Score: \(quizBrain.score)"
+        let buttons = [0: firstOptionBtn, 1 : secondOptionBtn, 2 : thirdOptionBtn]
+        
         questionView.text = quizBrain.getQuestionText()
-        firstOptionBtn.setTitle(quizBrain.getAnswerText(at: 0 ), for: .normal)
-        secondOptionBtn.setTitle(quizBrain.getAnswerText(at: 1), for: .normal)
-        thirdOptionBtn.setTitle(quizBrain.getAnswerText(at: 2), for: .normal)
+        
+        for button in buttons {
+            button.value?.backgroundColor = .clear
+            button.value?.setTitle(quizBrain.getAnswerText(at: button.key), for: .normal)
+        }
         progressBar.progress = quizBrain.getProgress()
-        firstOptionBtn.backgroundColor = .clear
-        secondOptionBtn.backgroundColor = .clear
-        thirdOptionBtn.backgroundColor = .clear
+
     }
 }
 
