@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var trueBtn: UIButton!
     @IBOutlet weak var falseBtn: UIButton!
+    @IBOutlet weak var scoreView: UILabel!
     
     var quizBrain = QuizBrain()
     
@@ -23,6 +24,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         updateText(self.quizBrain.questionNumber)
+        scoreView.text = "Score: \(quizBrain.score)"
     }
     
     @IBAction func buttonPressed(_ sender: UIButton) {
@@ -40,6 +42,7 @@ class ViewController: UIViewController {
     }
     
     @objc func updateText(_ questionNumber: Int){
+        scoreView.text = "Score: \(quizBrain.score)"
         questionView.text = quizBrain.getQuestionText()
         progressBar.progress = quizBrain.getProgress()
         trueBtn.backgroundColor = .clear

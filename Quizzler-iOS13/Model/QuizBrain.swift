@@ -23,13 +23,16 @@ struct QuizBrain{
 
     ]
     
-    var questionNumber: Int = 0
+    var questionNumber = 0
+    var score = 0
     
-    func checkAnswer(_ userAnswer: String) -> Bool {
+    mutating func checkAnswer(_ userAnswer: String) -> Bool {
         let actualAnswer = quiz[questionNumber].a
         
         let isAnswerCorrect = (userAnswer == actualAnswer)
         print("the answer is \(isAnswerCorrect)")
+        
+        isAnswerCorrect ? (self.score += 1) : ()
         
         return isAnswerCorrect
     }
@@ -45,6 +48,11 @@ struct QuizBrain{
     mutating func nextQuestion() {
         let isNextQuestionEmpty = (questionNumber == quiz.count - 1)
         
-        !(isNextQuestionEmpty) ? (self.questionNumber += 1) : (self.questionNumber = 0)
+        if !isNextQuestionEmpty {
+            self.questionNumber += 1
+        }else{
+            self.questionNumber = 0
+            self.score = 0
+        }
     }
 }
